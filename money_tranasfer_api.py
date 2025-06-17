@@ -13,6 +13,13 @@ def mysql_db_connection():
         database="userDetails"
     )
 
+"""
+this api demonstrates about ACID properties of sql:
+- Atomicity: It ensures either all operations succeed, or none at all.
+- Consistency: Ensures that the database remains in a valid state before and after a transaction.
+- Isolation: Keeps transactions independent from one another.
+- Durability: Guarantees once a transaction is committed, the changes are permanent, even if the system crashes.
+"""
 @app.route("/transfer", methods = ["POST"])
 def transfer():
     try:
@@ -31,6 +38,8 @@ def transfer():
             sender = cursor.fetchone() # fetchone gives single row as a tuple if exists else None
             if not sender:
                 raise Exception("sender not found")
+            if balance > sender[2]:
+                raise Exception("balance is insufficient")
             cursor.execute("select * from users where id=%s", (receiver_id,))
             receiver = cursor.fetchone()
             if not receiver:
