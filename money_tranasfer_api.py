@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import mysql.connector as mc
+import db_configuration
 
 
 app = Flask(__name__)
@@ -7,10 +8,10 @@ app = Flask(__name__)
 
 def mysql_db_connection():
     return mc.connect(
-        host="localhost",
-        user="root",
-        password="123456789",
-        database="userDetails"
+        host=db_configuration.db_host,
+        user=db_configuration.db_user,
+        password=db_configuration.db_password,
+        database=db_configuration.db_name
     )
 
 """
